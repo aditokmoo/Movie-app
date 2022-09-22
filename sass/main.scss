@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+// Variables
+$primary-color: #142333;
+$secondary-color: #192f47;
+$primary-font: Roboto;
+$secondary-font: Source Sans Pro, Arial, sans-serif;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $primary-color;
+    color: #fff;
+}
+
+.loader {
+    position: fixed;
+    top: 30%;
+    bottom: 30%;
+    left: 0;
+    right: 0;
+}
+
+/* Movies Card */
+.movies-section {
+    opacity: 0;
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    transition: opacity 1s ease-in;
+
+    .movie {
+        background-color: $secondary-color;
+        width: 200px;
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
+        margin: 10px;
+        position: relative;
+    
+        img {
+            max-width: 100%;
+        }
+    
+        .movie-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin: 10px;
+        
+            h3 {
+                font-family: $secondary-font;
+                font-weight: 300;
+                text-align: center;
+            }
+    
+            span {
+                font-family: Roboto;
+                background-color: #007bff;
+                padding: 5px 10px;
+                position: absolute;
+                margin-top: -60px;
+                border-radius: 10px;
+                font-size: 20px;
+            
+                &.red {background-color: red}
+                &.green {background-color: green}
+                &.orange {background-color: #FF5E00}
+            }
+        }
+    
+        .overview {
+            background-color: rgba(0, 0, 0, 0.6);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: #000;
+            position: absolute;
+            padding: 20px;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            overflow: auto;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+    
+            .overlay {
+                background-color: rgba(0, 0, 0, 0.8);
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+        
+            a {
+                text-decoration: none;
+                color: #fff;
+                position: relative;
+                top: 50%;
+                bottom: 50%;
+                display: flex;
+                text-align: center;
+                justify-content: center;
+                border: 1px solid #007bff;
+                font-family: $secondary-font;
+                font-size: 13px;
+                color: #007bff;
+                border-radius: 5px;
+                padding: 5px 0;
+                transition: .2s ease-in;
+    
+                &:hover {
+                    background-color: #007bff;
+                    color: #fff;
+                }
+            }
+        }
+    
+        &:hover .overview {
+            opacity: 1;
+        }
+    }
+}
+
+.container {
+    position: relative;
+    margin: 0 auto;
+    width: 960px;
+    display: flex;
+}
+
+
+
+/* Movie Section */
+.movie-modal {
+    display: none;
+    position: fixed;
+    background-color: #fff;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+
+    #close-btn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 1;
+        font-size: 2em;
+        cursor: pointer;
+        transition: color .2s ease-in;
+
+        &:hover {
+            color: #999;
+        }
+    }
+
+    .movie {
+        background-image: url('https://image.tmdb.org/t/p/w1280/g8sclIV4gj1TZqUpnL82hKOTK3B.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        height: 450px;
+        padding: 50px;
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 450px;
+        }
+
+        .movie-section {
+            background-color: $primary-color;
+            width: 210px;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            position: absolute;
+            z-index: 1;
+    
+            img {
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                width: 100%;
+            }
+
+            h3 {
+                font-size: 13px;
+                font-family: $primary-font;
+                text-align: center;
+                padding: 5px 0;
+            }
+        }
+
+        .movie-info {
+            position: relative;
+            z-index: 1;
+            margin: 0 50px;
+            width: 40vw;
+            left: 20%;
+            right: 20%;
+
+            h1 {
+                font-size: 2.2rem;
+                font-weight: 600;
+                font-family: $secondary-font;
+            }
+
+            p {
+                font-family: $secondary-font;
+                font-size: 13px;
+                letter-spacing: 0.8px;
+                line-height: 1.4;
+                margin: 10px 0;
+            }
+
+            a {
+                text-decoration: none;
+                font-weight: bold;
+                color: #fff;
+                font-family: $secondary-font;
+                transition: .2s ease-in;
+
+                &:hover {
+                    color: #999;
+                }
+            }
+            
+        }
+    }
+}
