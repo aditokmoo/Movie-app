@@ -56,7 +56,7 @@ function openMovie(movies) {
         const modalBtn = document.querySelector(`#movie-modal-${id}`);
 
         modalBtn.addEventListener('click', (e) => {
-            movieModal.style.display = 'block';
+            movieModal.classList.add('show');
             document.querySelector('html').style.overflow = 'hidden'
 
             movieModal.innerHTML = `
@@ -66,7 +66,7 @@ function openMovie(movies) {
                         <div class="overlay"></div>
                         <div class="movie-section">
                             <img src="${img_path + poster_path}" alt="">
-                            <h3>${release_date}</h3>
+                            <h3>Release date: ${release_date}</h3>
                         </div>
                         <div class="movie-info">
                             <h1>${title}</h1>
@@ -87,7 +87,7 @@ function closeModal() {
     let closeBtn = document.querySelector('#close-btn');
 
     closeBtn.addEventListener('click', () => {
-        movieModal.style.display = 'none';
+        movieModal.classList.remove('show')
         document.querySelector('html').style.overflow = 'auto'
     })
 }

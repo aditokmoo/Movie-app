@@ -126,18 +126,9 @@ body {
     }
 }
 
-.container {
-    position: relative;
-    margin: 0 auto;
-    width: 960px;
-    display: flex;
-}
-
-
-
 /* Movie Section */
 .movie-modal {
-    display: none;
+    transform: translateX(-100%);
     position: fixed;
     background-color: #fff;
     top: 0;
@@ -145,6 +136,12 @@ body {
     bottom: 0;
     right: 0;
     z-index: 1;
+    transition: transform .5s ease-out;
+
+    &.show {
+        transform: translateX(0);
+        transition: transform .5s ease-in;
+    }
 
     #close-btn {
         position: absolute;
@@ -168,6 +165,13 @@ body {
         display: flex;
         height: 450px;
         padding: 50px;
+
+        .container {
+            position: relative;
+            margin: 0 auto;
+            width: 960px;
+            display: flex;
+        }
 
         .overlay {
             background-color: rgba(0, 0, 0, 0.6);
@@ -196,7 +200,7 @@ body {
                 font-size: 13px;
                 font-family: $primary-font;
                 text-align: center;
-                padding: 5px 0;
+                padding: 7px 0;
             }
         }
 
