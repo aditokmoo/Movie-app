@@ -24,6 +24,59 @@ body {
     right: 0;
 }
 
+/* HEADER (SLIDER) SECTION */
+.header-section {
+    background-image: url('../img/bg-header.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 600px;
+    width: 100%;
+    margin: 0 auto;
+
+    .overlay {
+        background-color: rgba(0, 0, 0, 0.6);
+        height: 100%;
+        position: relative;
+    }
+
+    .header-text {
+        position: absolute;
+        top: 0;
+        text-align: center;
+        left: 25%;
+        right: 25%;
+        top: 15%;
+        line-height: 1.5;
+        font-family: $primary-font;
+
+        h1 {
+            font-size: 3em;
+        }
+
+        h2 {
+            font-style: italic;
+        }
+    }
+
+    input {
+        position: absolute;
+        left: 25%;
+        right: 25%;
+        top: 30%;
+        width: 50%;
+        padding: 15px 20px;
+        font-size: 15px;
+        border-radius: 20px;
+        border: 1px solid #ddd;
+    
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+
 /* Movies Card */
 .movies-section {
     opacity: 0;
@@ -31,11 +84,12 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     transition: opacity 1s ease-in;
+    margin: 40px 0;
 
     .movie {
         background-color: $secondary-color;
         width: 200px;
-        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
         border-radius: 3px;
         margin: 10px;
         position: relative;
@@ -58,12 +112,12 @@ body {
     
             span {
                 font-family: Roboto;
-                background-color: #007bff;
                 padding: 5px 10px;
                 position: absolute;
-                margin-top: -60px;
-                border-radius: 10px;
+                top: 0px;
+                left: 0;
                 font-size: 20px;
+                box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
             
                 &.red {background-color: red}
                 &.green {background-color: green}

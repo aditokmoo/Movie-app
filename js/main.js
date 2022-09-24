@@ -1,8 +1,11 @@
 // API URL
 const api_url = 'https://api.themoviedb.org/3/movie/popular?api_key=a2949ba2bbc81404864f35921a20a1d0&language=en-US&page=1'
+const search_url = 'https://api.themoviedb.org/3/search/movie?api_key=a2949ba2bbc81404864f35921a20a1d0&query='
 const img_path = 'https://image.tmdb.org/t/p/w1280';
 const movies_section = document.querySelector('.movies-section');
+const searchForm = document.querySelector('#search_form');
 
+// Loader
 window.addEventListener('load', () => {
     const loader = document.querySelector('.loader');
 
@@ -13,38 +16,53 @@ window.addEventListener('load', () => {
         movies_section.style.display = 'flex';
         setTimeout(() => {movies_section.style.opacity = 1}, 50)
     }, 50)
-})
+});
 
-async function getMovies() {
-    const res = await fetch(api_url);
+// Get Movies Function
+async function getMovies(url) {
+    const res = await fetch(url);
     const data = await res.json();
+    
     displayMovie(data);
-
-    console.log(data)
 }
+
+// Search Movie
+searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let search = document.querySelector('#search');
+    let searchText = search.value;
+    
+    if(searchText) {
+        getMovies(search_url + searchText);
+
+        search.value = ''
+    }
+});
 
 // Display Movie Function
 function displayMovie(movies) {
+    movies_section.innerHTML = '';
+
     movies.results.forEach(item => {
         const { title, poster_path, vote_average, id } = item;
         
         movies_section.innerHTML += `
-        <div class="movie">
-            <img src="${img_path + poster_path}" alt="">
-            <div class="movie-info">
-                <h3>${title}</h3>
-                
-                <span class="${getClassByRating(vote_average)}">${vote_average}</span>
+            <div class="movie">
+                <img src="${img_path + poster_path}" alt="">
+                <div class="movie-info">
+                    <h3>${title}</h3>
+                    
+                    <span class="${getClassByRating(vote_average)}">${vote_average}</span>
+                </div>
+                <div class="overview" style="background-image: url('${img_path + poster_path}')">
+                    <div class="overlay"></div>
+                    <a href="#" id="movie-modal-${id}">Check</a>
+                </div>
             </div>
-            <div class="overview" style="background-image: url('${img_path + poster_path}')">
-                <div class="overlay"></div>
-                <a href="#" id="movie-modal-${item.id}">Check</a>
-            </div>
-        </div>
         `
     })
 
-    openMovie(movies);
+    openMovie(movies)
 }
 
 const movieModal = document.querySelector('.movie-modal')
@@ -56,6 +74,7 @@ function openMovie(movies) {
         const modalBtn = document.querySelector(`#movie-modal-${id}`);
 
         modalBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             movieModal.classList.add('show');
             document.querySelector('html').style.overflow = 'hidden'
 
@@ -103,4 +122,4 @@ function getClassByRating(rate) {
     }
 }
 
-getMovies();
+getMovies(api_url);
