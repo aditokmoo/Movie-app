@@ -11,6 +11,10 @@ $secondary-font: Source Sans Pro, Arial, sans-serif;
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth !important;
+  }
+
 body {
     background-color: $primary-color;
     color: #fff;

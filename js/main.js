@@ -37,6 +37,12 @@ searchForm.addEventListener('submit', (e) => {
 
         search.value = ''
     }
+
+    setTimeout(() => {
+        document.querySelector('.movies-section').scrollIntoView({
+            behavior: 'smooth',
+        });
+    }, 700)
 });
 
 // Display Movie Function
