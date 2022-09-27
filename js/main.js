@@ -4,19 +4,32 @@ const search_url = 'https://api.themoviedb.org/3/search/movie?api_key=a2949ba2bb
 const img_path = 'https://image.tmdb.org/t/p/w1280';
 const movies_section = document.querySelector('.movies-section');
 const searchForm = document.querySelector('#search_form');
+const loading = document.querySelector('.loader');
 
-// Loader
+// On Website Load
 window.addEventListener('load', () => {
-    const loader = document.querySelector('.loader');
+    hideLoader();
+});
 
+// Hide Loader Function
+function hideLoader() {
     setTimeout(() => {
-        loader.style.display = 'none'
-        setTimeout(() => {loader.style.opacity = 0}, 50)
-   
+        loading.style.display = 'none'
+        setTimeout(() => {loading.style.opacity = 0}, 50)
+
         movies_section.style.display = 'flex';
         setTimeout(() => {movies_section.style.opacity = 1}, 50)
-    }, 50)
-});
+    }, 700)
+}
+
+// Display Loader Function
+function displayLoader() {
+    loading.style.display = 'block';
+    setTimeout(() => {loading.style.opacity = 1}, 50)
+        
+    movies_section.style.display = 'none'
+    setTimeout(() => {movies_section.style.opacity = 0}, 50)
+}
 
 // Get Movies Function
 async function getMovies(url) {
@@ -33,16 +46,19 @@ searchForm.addEventListener('submit', (e) => {
     let searchText = search.value;
     
     if(searchText) {
-        getMovies(search_url + searchText);
+        // Show Loader
+        displayLoader();
+            
+        setTimeout(() => {
+            // Hide Loader
+            hideLoader();
+            // Get Movies
+            getMovies(search_url + searchText);
+            
+        }, 500);
 
         search.value = ''
     }
-
-    setTimeout(() => {
-        document.querySelector('.movies-section').scrollIntoView({
-            behavior: 'smooth',
-        });
-    }, 700)
 });
 
 // Display Movie Function
@@ -54,24 +70,27 @@ function displayMovie(movies) {
         
         movies_section.innerHTML += `
             <div class="movie">
-                <img src="${img_path + poster_path}" alt="">
-                <div class="movie-info">
-                    <h3>${title}</h3>
-                    
-                    <span class="${getClassByRating(vote_average)}">${vote_average}</span>
-                </div>
-                <div class="overview" style="background-image: url('${img_path + poster_path}')">
-                    <div class="overlay"></div>
-                    <a href="#" id="movie-modal-${id}">Check</a>
+                <div class="card-inner">
+                    <div class="card front">
+                        <img src="${img_path + poster_path}" alt="">
+                        <div class="movie-info">
+                            <h3>${title}</h3>
+                            <span class="${getClassByRating(vote_average)}">${vote_average}</span>
+                        </div>
+                    </div>
+                    <div class="card back" style="background-image: url('${img_path + poster_path}')">
+                        <div class="overlay"></div>
+                        <a href="#" id="movie-modal-${id}">Check</a>
+                    </div>
                 </div>
             </div>
         `
-    })
+    });
 
-    openMovie(movies)
+    openMovie(movies);
 }
 
-const movieModal = document.querySelector('.movie-modal')
+const movieModal = document.querySelector('.movie-modal');
 
 // Open Movie Function
 function openMovie(movies) {
@@ -82,7 +101,10 @@ function openMovie(movies) {
         modalBtn.addEventListener('click', (e) => {
             e.preventDefault();
             movieModal.classList.add('show');
-            document.querySelector('html').style.overflow = 'hidden'
+            
+            setTimeout(() => {
+                document.querySelector('html').style.overflow = 'hidden'
+            }, 500)
 
             movieModal.innerHTML = `
                 <i class="fas fa-times" id="close-btn"></i>

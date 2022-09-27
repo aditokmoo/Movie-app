@@ -12,7 +12,7 @@ $secondary-font: Source Sans Pro, Arial, sans-serif;
 }
 
 html {
-    scroll-behavior: smooth !important;
+    scroll-behavior: smooth ;
   }
 
 body {
@@ -21,9 +21,8 @@ body {
 }
 
 .loader {
-    position: fixed;
-    top: 30%;
-    bottom: 30%;
+    position: absolute;
+    bottom: 0;
     left: 0;
     right: 0;
 }
@@ -88,98 +87,118 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     transition: opacity 1s ease-in;
-    margin: 40px 0;
+    margin: 40px 0px;
 
     .movie {
         background-color: $secondary-color;
-        width: 200px;
-        box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
-        border-radius: 3px;
         margin: 10px;
         position: relative;
-    
-        img {
-            max-width: 100%;
+
+        &:hover .card-inner {
+            transform: rotateY(180deg);
         }
+
+        .card-inner {
+            transition: transform 1s;
+            transform-style: preserve-3d;
+            position: relative;
     
-        .movie-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            margin: 10px;
-        
-            h3 {
-                font-family: $secondary-font;
-                font-weight: 300;
-                text-align: center;
+            img {
+                max-width: 100%;
             }
-    
-            span {
-                font-family: Roboto;
-                padding: 5px 10px;
-                position: absolute;
-                top: 0px;
-                left: 0;
-                font-size: 20px;
-                box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
             
-                &.red {background-color: red}
-                &.green {background-color: green}
-                &.orange {background-color: #FF5E00}
-            }
-        }
-    
-        .overview {
-            background-color: rgba(0, 0, 0, 0.6);
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
-            color: #000;
-            position: absolute;
-            padding: 20px;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            overflow: auto;
-            opacity: 0;
-            transition: opacity 0.5s ease-in;
-    
-            .overlay {
-                background-color: rgba(0, 0, 0, 0.8);
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-        
-            a {
-                text-decoration: none;
-                color: #fff;
+            .card {
+                background-color: $secondary-color;
+                width: 200px;
+                box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
+                border-radius: 3px;
+                margin: 10px;
                 position: relative;
-                top: 50%;
-                bottom: 50%;
-                display: flex;
-                text-align: center;
-                justify-content: center;
-                border: 1px solid #007bff;
-                font-family: $secondary-font;
-                font-size: 13px;
-                color: #007bff;
-                border-radius: 5px;
-                padding: 5px 0;
-                transition: .2s ease-in;
+                backface-visibility: hidden;
+                -webkit-backface-visibility: hidden;
+                overflow: hidden;;
     
-                &:hover {
-                    background-color: #007bff;
-                    color: #fff;
+                &.front {
+                    background: $primary-color;
+                    position: relative;
+                    height: 360px;
+
+                    .movie-info {
+                        display: flex;
+                        justify-content: space-between;
+                        font-size: 13px;
+                        margin: 10px;
+                        height: 100%;
+                    
+                        h3 {
+                            font-family: $secondary-font;
+                            font-weight: 300;
+                            text-align: center;
+                        }
+                
+                        span {
+                            font-family: Roboto;
+                            padding: 5px 10px;
+                            position: absolute;
+                            top: 0px;
+                            left: 0;
+                            font-size: 20px;
+                            box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.75);
+                        
+                            &.red {background-color: red}
+                            &.green {background-color: green}
+                            &.orange {background-color: #FF5E00}
+                        }
+                    }
+                }
+    
+                &.back {
+                    background-color: rgba(0, 0, 0, 0.6);
+                    background-position: center;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    color: #000;
+                    position: absolute;
+                    padding: 20px;
+                    top: -10px;
+                    height: 100%;
+                    left: 0;
+                    right: 0;
+                    transform: rotateY(180deg);
+        
+                    .overlay {
+                        background-color: rgba(0, 0, 0, 0.8);
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                    }
+                
+                    a {
+                        text-decoration: none;
+                        color: #fff;
+                        position: relative;
+                        top: 50%;
+                        bottom: 50%;
+                        display: flex;
+                        text-align: center;
+                        justify-content: center;
+                        border: 1px solid #007bff;
+                        font-family: $secondary-font;
+                        font-size: 13px;
+                        color: #007bff;
+                        border-radius: 5px;
+                        padding: 5px 0;
+                        transition: .2s ease-in;
+            
+                        &:hover {
+                            background-color: #007bff;
+                            color: #fff;
+                        }
+                    }
                 }
             }
-        }
-    
-        &:hover .overview {
-            opacity: 1;
         }
     }
 }

@@ -9,27 +9,29 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Movie Section-->
-    <section class="movie-modal"></section>
-    <!-- Header (Slider) section -->
-    <header class="header-section">
-        <div class="overlay"></div>
-        <div class="header-text">
-            <h1>Welcome.</h1>
-            <h2>Millions of movies and TV shows to discover. Explore now.</h2>
+    <div class="wrapper">
+        <!-- Movie Section-->
+        <section class="movie-modal"></section>
+        <!-- Header (Slider) section -->
+        <header class="header-section">
+            <div class="overlay"></div>
+            <div class="header-text">
+                <h1>Welcome.</h1>
+                <h2>Millions of movies and TV shows to discover. Explore now.</h2>
+            </div>
+            <form id="search_form">
+                <input type="text" placeholder="Searh movie..." id="search">
+            </form>
+        </header>
+        <!-- Movies Section-->
+        <section class="movies-section"></section>
+        <div class="loader">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="217px" height="217px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                <circle cx="50" cy="50" r="32" stroke-width="8" stroke="#fe718d" stroke-dasharray="50.26548245743669 50.26548245743669" fill="none" stroke-linecap="round">
+                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;360 50 50"/>
+                </circle>
+            </svg>
         </div>
-        <form id="search_form">
-            <input type="text" placeholder="Searh movie..." id="search">
-        </form>
-    </header>
-    <!-- Movies Section-->
-    <section class="movies-section"></section>
-    <div class="loader">
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="217px" height="217px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-            <circle cx="50" cy="50" r="32" stroke-width="8" stroke="#fe718d" stroke-dasharray="50.26548245743669 50.26548245743669" fill="none" stroke-linecap="round">
-              <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;360 50 50"/>
-            </circle>
-        </svg>
     </div>
     <script src="js/main.js"></script>
 </body>
