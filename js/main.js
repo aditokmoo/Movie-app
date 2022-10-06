@@ -25,11 +25,11 @@ async function pagination() {
 
         displayLoader();
 
+        displayMovie(data);
+
         setTimeout(() => {
             hideLoader();
         }, 500);
-
-        return data;
 }
 
 backwardBtn.addEventListener('click', (e) => {
