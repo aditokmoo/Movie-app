@@ -17,21 +17,46 @@
             <div class="overlay"></div>
             <div class="header-text">
                 <h1>Welcome.</h1>
-                <h2>Millions of movies and TV shows to discover. Explore now.</h2>
+                <h2>Millions of movies to discover. Explore now.</h2>
+                <form id="search_form">
+                    <input type="text" placeholder="Searh movie..." id="search">
+                </form>
             </div>
-            <form id="search_form">
-                <input type="text" placeholder="Searh movie..." id="search">
-            </form>
         </header>
-        <!-- Movies Section-->
-        <section class="movies-section"></section>
-        <div class="loader">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="217px" height="217px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-                <circle cx="50" cy="50" r="32" stroke-width="8" stroke="#fe718d" stroke-dasharray="50.26548245743669 50.26548245743669" fill="none" stroke-linecap="round">
-                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;360 50 50"/>
-                </circle>
-            </svg>
+        <!-- Pagination -->
+        <div class="container">
+            <section class="pagination-section">
+                <h2>Movies page: <span id="pagination_page">1</span></h2>
+                <div class="pagination">
+                    <a href="#" id="backward-btn">&laquo;</a>
+                    <a href="#" id="foward-btn">&raquo;</a>
+                </div>
+            </section>
+            <!-- Movies Section-->
+            <section class="movies-section"></section>
+            <!-- Loader -->
+            <div class="loader">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                    <circle cx="84" cy="50" r="10" fill="#1d3f72">
+                        <animate attributeName="r" repeatCount="indefinite" dur="0.4629629629629629s" calcMode="spline" keyTimes="0;1" values="10;0" keySplines="0 0.5 0.5 1" begin="0s"/>
+                        <animate attributeName="fill" repeatCount="indefinite" dur="1.8518518518518516s" calcMode="discrete" keyTimes="0;0.25;0.5;0.75;1" values="#1d3f72;#71c2cc;#d8ebf9;#5699d2;#1d3f72" begin="0s"/>
+                    </circle><circle cx="16" cy="50" r="10" fill="#1d3f72">
+                      <animate attributeName="r" repeatCount="indefinite" dur="1.8518518518518516s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"/>
+                      <animate attributeName="cx" repeatCount="indefinite" dur="1.8518518518518516s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="0s"/>
+                    </circle><circle cx="50" cy="50" r="10" fill="#5699d2">
+                      <animate attributeName="r" repeatCount="indefinite" dur="1.8518518518518516s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.4629629629629629s"/>
+                      <animate attributeName="cx" repeatCount="indefinite" dur="1.8518518518518516s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.4629629629629629s"/>
+                    </circle><circle cx="84" cy="50" r="10" fill="#d8ebf9">
+                      <animate attributeName="r" repeatCount="indefinite" dur="1.8518518518518516s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.9259259259259258s"/>
+                      <animate attributeName="cx" repeatCount="indefinite" dur="1.8518518518518516s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.9259259259259258s"/>
+                    </circle><circle cx="16" cy="50" r="10" fill="#71c2cc">
+                      <animate attributeName="r" repeatCount="indefinite" dur="1.8518518518518516s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="0;0;10;10;10" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-1.3888888888888888s"/>
+                      <animate attributeName="cx" repeatCount="indefinite" dur="1.8518518518518516s" calcMode="spline" keyTimes="0;0.25;0.5;0.75;1" values="16;16;16;50;84" keySplines="0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1;0 0.5 0.5 1" begin="-1.3888888888888888s"/>
+                    </circle>
+                </svg>
+            </div>
         </div>
+        
     </div>
     <script src="js/main.js"></script>
 </body>

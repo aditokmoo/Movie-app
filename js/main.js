@@ -1,5 +1,6 @@
 // API URL
-const api_url = 'https://api.themoviedb.org/3/movie/popular?api_key=a2949ba2bbc81404864f35921a20a1d0&language=en-US&page=1'
+let currentPage = 1;
+const api_url = `https://api.themoviedb.org/3/movie/popular?api_key=a2949ba2bbc81404864f35921a20a1d0&language=en-US&page=${currentPage}`
 const search_url = 'https://api.themoviedb.org/3/search/movie?api_key=a2949ba2bbc81404864f35921a20a1d0&query='
 const img_path = 'https://image.tmdb.org/t/p/w1280';
 const movies_section = document.querySelector('.movies-section');
@@ -9,6 +10,38 @@ const loading = document.querySelector('.loader');
 // On Website Load
 window.addEventListener('load', () => {
     hideLoader();
+});
+
+// Pagination Buttons
+const fowardBtn = document.querySelector('#foward-btn');
+const backwardBtn = document.querySelector('#backward-btn');
+const page = document.querySelector('#pagination_page');
+// Pagination Function
+async function pagination() {
+    const api = `https://api.themoviedb.org/3/movie/popular?api_key=a2949ba2bbc81404864f35921a20a1d0&language=en-US&page=${currentPage}`;
+        const res = await fetch(api);
+        const data = await res.json();
+        page.innerText = currentPage;
+
+        displayLoader();
+
+        setTimeout(() => {
+            hideLoader();
+        }, 500);
+
+        return data;
+}
+
+backwardBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    currentPage--;
+    pagination();
+})
+
+fowardBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    currentPage++;
+    pagination();
 });
 
 // Hide Loader Function
@@ -26,7 +59,7 @@ function hideLoader() {
 function displayLoader() {
     loading.style.display = 'block';
     setTimeout(() => {loading.style.opacity = 1}, 50)
-        
+    
     movies_section.style.display = 'none'
     setTimeout(() => {movies_section.style.opacity = 0}, 50)
 }
