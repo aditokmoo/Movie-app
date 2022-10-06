@@ -41,26 +41,32 @@ async function pagination() {
 
 // Disable Pagination Function
 function disablePagination() {
-    if(currentPage === 1) {
+    if(currentPage > 1) {
         backwardBtn.classList.remove('disabled')
     } else {
-        backwardBtn.classList.add('disabled')
+        backwardBtn.classList.add('disabled');
     }
 }
 
 // Pagination button for back
 backwardBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    disablePagination();
+
     currentPage--;
+
+    disablePagination();
+
     pagination();
 })
 
 // Pagination button for foward
 fowardBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    disablePagination();
+
     currentPage++;
+
+    disablePagination();
+
     pagination();
 });
 
