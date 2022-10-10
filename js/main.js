@@ -1,10 +1,18 @@
-let currentPage = 1;
-let api_url = `https://api.themoviedb.org/3/movie/popular?api_key=a2949ba2bbc81404864f35921a20a1d0&language=en-US&page=${currentPage}`
+const api_url = 'https://api.themoviedb.org/3/movie/popular?api_key=a2949ba2bbc81404864f35921a20a1d0&language=en-US&page=1'
 const search_url = 'https://api.themoviedb.org/3/search/movie?api_key=a2949ba2bbc81404864f35921a20a1d0&query='
 const img_path = 'https://image.tmdb.org/t/p/w1280';
 const movies_section = document.querySelector('.movies-section');
 const searchForm = document.querySelector('#search_form');
 const loading = document.querySelector('.loader');
+const fowardBtn = document.querySelector('#foward-btn');
+const backwardBtn = document.querySelector('#backward-btn');
+const page = document.querySelector('#pagination_page');
+
+let nextPage;
+let prevPage;
+let currentPage;
+let totalPages;
+let lastUrl = '';
 
 // On Website Load
 window.addEventListener('load', () => {
@@ -13,62 +21,79 @@ window.addEventListener('load', () => {
 
 // Get Movies Function
 async function getMovies(url) {
+    lastUrl = url;
     const res = await fetch(url);
     const data = await res.json();
 
-    displayMovie(data);
-}
+    if(data.results.length !== 0) {
+        currentPage = data.page;
+        nextPage = currentPage + 1;
+        prevPage = currentPage - 1;
+        totalPages = data.total_pages;
 
-// Pagination Buttons
-const fowardBtn = document.querySelector('#foward-btn');
-const backwardBtn = document.querySelector('#backward-btn');
-const page = document.querySelector('#pagination_page');
-// Pagination Function
-async function pagination() {
-    const api = `https://api.themoviedb.org/3/movie/popular?api_key=a2949ba2bbc81404864f35921a20a1d0&language=en-US&page=${currentPage}`;
-    const res = await fetch(api);
-    const data = await res.json();
-    page.innerText = currentPage;
+        page.innerText = currentPage;
 
-    displayLoader();
+        if(currentPage <= 1) {
+            backwardBtn.classList.add('disabled');
+        } else if(currentPage >= totalPages) {
+            fowardBtn.classList.add('disabled');
+        } else {
+            backwardBtn.classList.remove('disabled');
+            fowardBtn.classList.remove('disabled')
+        }
 
-    displayMovie(data);
+        displayLoader();
 
-    setTimeout(() => {
-        hideLoader();
-    }, 500);
-}
+        setTimeout(() => {
+            hideLoader();
+        }, 50)
 
-// Disable Pagination Function
-function disablePagination() {
-    if(currentPage > 1) {
-        backwardBtn.classList.remove('disabled')
+        displayMovie(data);
+
     } else {
-        backwardBtn.classList.add('disabled');
+        movies_section.innerHTML = `<h1>No Results Found</h1>`
     }
 }
 
-// Pagination button for back
-backwardBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-
-    currentPage--;
-
-    disablePagination();
-
-    pagination();
-})
-
 // Pagination button for foward
-fowardBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-
-    currentPage++;
-
-    disablePagination();
-
-    pagination();
+fowardBtn.addEventListener('click', () => {
+    if(nextPage <= totalPages){
+        pagination(nextPage);
+      }
 });
+
+// Pagination button for backward
+backwardBtn.addEventListener('click', () => {
+    if(prevPage > 0) {
+        pagination(prevPage);
+    }
+});
+
+// Pagination
+function pagination(page) {
+    // Spliting url
+    let urlSplit = lastUrl.split('?');
+    // Spliting last array url from &
+    let queryParams = urlSplit[1].split('&');
+    // Spliting params to get page number
+    let key = queryParams[queryParams.length -1].split('=');
+    
+    
+    // Set page number key to string
+    key[1] = page.toString();
+    // Joining page and page number keys togethere
+    let a = key.join('=');
+    // Updating last param (page number) in query array
+    queryParams[queryParams.length - 1] = a;
+    // Joining last array url with &
+    let b = queryParams.join('&');
+    // Joining destructured url in one
+    let url = urlSplit[0] +'?'+ b;
+    
+    // Calling new page
+    getMovies(url);
+
+}
 
 // Hide Loader Function
 function hideLoader() {
