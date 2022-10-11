@@ -252,10 +252,55 @@ body {
     right: 0;
     z-index: 1;
     transition: transform .5s ease-out;
+    overflow-y: auto;
 
     &.show {
         transform: translateX(0);
         transition: transform .5s ease-in;
+    }
+
+    .user-review {
+        position: relative;
+        margin: 50px auto;
+        padding: 20px;
+        display: flex;
+        color: #000;
+        border: 1px solid #ddd;
+
+        .user-review-img {
+            
+            img {
+                width: 100px;
+                height: 100px;
+                border: 1px solid #ddd;
+            }
+        }
+
+        .user-review-content {
+            margin-left: 20px;
+
+            h1 {
+                font-family: $secondary-font;
+                color: #888;
+            }
+
+            h3 {
+                font-family: $secondary-font;
+
+                span {
+                    font-size: 12px;
+                    font-family: $primary-font;
+                    position: relative;
+                    top: -2px;
+                }
+            }
+
+            p {
+                font-family: $primary-font;
+                font-size: 14px;
+                line-height: 1.8;
+            }
+        }
     }
 
     #close-btn {
