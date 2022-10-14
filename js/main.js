@@ -8,6 +8,8 @@ const fowardBtn = document.querySelector('#foward-btn');
 const backwardBtn = document.querySelector('#backward-btn');
 const page = document.querySelector('#pagination_page');
 const movieModal = document.querySelector('.movie-modal');
+const movieHeader = document.querySelector('.movie-header');
+const movieReview = document.querySelector('.movie-review .container');
 
 let nextPage;
 let prevPage;
@@ -115,8 +117,7 @@ const displayMovie = movies => {
 }
 
 // Get Movie Review
-const getReview = async movie => {
-    const movie_id = movie.id;
+const getReview = async movie_id => {
     const res = await fetch(`https://api.themoviedb.org/3/movie/${movie_id}/reviews?api_key=a2949ba2bbc81404864f35921a20a1d0&language=en-US&page=1`);
     const data = await res.json();
 
@@ -126,30 +127,26 @@ const getReview = async movie => {
             let { content, created_at } = item;
     
             created_at = created_at.slice(0, 10);
-    
-            movieModal.innerHTML += `
-                <div class="container">
-                    <div class="user-review">
-                        <div class="user-review-img">
-                            <img src="${noProfileImge(img_path, avatar_path)}" >
-                        </div>
-                        <div class="user-review-content">
-                            <h3>${username} <span>( ${created_at} )</span></h3>
-                            <p>${content}</p>
-                        </div>
+
+            movieReview.innerHTML += `
+                <div class="user-review" id="${movie_id}">
+                    <div class="user-review-img">
+                        <img src="${noProfileImge(img_path, avatar_path)}" >
+                    </div>
+                    <div class="user-review-content">
+                        <h3>${username} <span>( ${created_at} )</span></h3>
+                        <p>${content}</p>
                     </div>
                 </div>
-            `
+            `; 
         })
     } else {
-        movieModal.innerHTML += `
-        <div class="container">
+        movieReview.innerHTML = `
             <div class="user-review">
                 <div class="user-review-content">
                     <h1>No reviews</h1>
                 </div>
             </div>
-        </div>
         `
     }
     closeModal();
@@ -160,6 +157,7 @@ const openMovie = movies => {
     movies.results.forEach(movie => {
         const { title, poster_path, backdrop_path, overview, release_date, id } = movie;
         const modalBtn = document.querySelector(`#movie-modal-${id}`);
+        const movie_id = movie.id;
 
         modalBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -169,27 +167,50 @@ const openMovie = movies => {
                 document.querySelector('html').style.overflow = 'hidden'
             }, 500)
 
-            movieModal.innerHTML = `
-                <i class="fas fa-times" id="close-btn"></i>
+            movieHeader.innerHTML = `
                 <div class="movie" style="background-image: url('${img_path + backdrop_path}')">
                     <div class="container">
                         <div class="overlay"></div>
                         <div class="movie-section">
-                            <img src="${img_path + poster_path}" alt="">
-                            <h3>Release date: ${release_date}</h3>
-                        </div>
-                        <div class="movie-info">
-                            <h1>${title}</h1>
-                            <p>${overview}</p>
-                            <a href="#"><i class="fas fa-play"></i> Play Clip</a>
+                            <div class="movie-image">
+                                <img src="${img_path + poster_path}" alt="">
+                                <h3>Release date: ${release_date}</h3>
+                            </div>
+                            <div class="movie-info">
+                                <h1>${title}</h1>
+                                <p>${overview}</p>
+                                <a href="#" target='_blank' id="${movie_id}"><i class="fas fa-play"></i> Play Clip</a>
+                            </div>
                         </div>
                     </div>
                 </div> 
             `
-            closeModal();
 
-            getReview(movie);
+            // Show Video
+            getVideo(movie_id);
+
+            // Review Section
+            getReview(movie_id);
+
+            // Close Modal
+            closeModal();
         })
+    })
+}
+
+// Get Video Function
+const getVideo = async movie_id => {
+    const video_url = `https://api.themoviedb.org/3/movie/${movie_id}/videos?api_key=a2949ba2bbc81404864f35921a20a1d0&language=en-US`;
+    const res = await fetch(video_url);
+    const data = await res.json();
+    const playBtn = document.getElementById(`${movie_id}`);
+
+    const max_videos = (data.results.length > 1) ? 1 : data.results.length;
+
+    playBtn.addEventListener('click', () => {
+        for(let i = 0; i < max_videos; i++) {
+            playBtn.href = `https://youtube.com/embed/${data.results[i].key}`
+        }
     })
 }
 
@@ -259,7 +280,9 @@ const closeModal = () => {
 
     closeBtn.addEventListener('click', () => {
         movieModal.classList.remove('show')
-        document.querySelector('html').style.overflow = 'auto'
+        document.querySelector('html').style.overflow = 'auto'        
+    
+        movieReview.innerHTML = ''; 
     })
 }
 
