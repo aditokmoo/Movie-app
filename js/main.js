@@ -9,7 +9,9 @@ const backwardBtn = document.querySelector('#backward-btn');
 const page = document.querySelector('#pagination_page');
 const movieModal = document.querySelector('.movie-modal');
 const movieHeader = document.querySelector('.movie-header');
-const movieReview = document.querySelector('.movie-review .container');
+const movieReview = document.querySelector('.review');
+const movieRecomended = document.querySelector('.recomended');
+const backBtn = document.querySelector('#back-btn')
 
 let nextPage;
 let prevPage;
@@ -93,8 +95,9 @@ const displayMovie = movies => {
     movies_section.innerHTML = '';
 
     movies.results.forEach(item => {
-        const { title, poster_path, vote_average, id } = item;
+        const { title, poster_path, backdrop_path, vote_average, id } = item;
 
+        if(poster_path != null && backdrop_path != null) {
             movies_section.innerHTML += `
                 <div class="movie">
                     <div class="card-inner">
@@ -112,8 +115,78 @@ const displayMovie = movies => {
                     </div>
                 </div>
             `
+        }
     });
+
     openMovie(movies);
+    
+}
+
+// Get Recomended Movies
+const recomendedMovies = async movie_id => {
+    const res = await fetch(`https://api.themoviedb.org/3/movie/${movie_id}/recommendations?api_key=a2949ba2bbc81404864f35921a20a1d0&language=en-US&page=1`)
+    const data = await res.json();
+
+    data.results.forEach(item => {
+        const { poster_path, backdrop_path, overview, title, release_date, vote_average, id } = item
+
+        if(poster_path != null) {
+            movieRecomended.innerHTML += `
+            <div class="movie">
+                <div class="card-img">
+                    <img src="${img_path + poster_path}" alt="">
+                </div>
+            </div>
+        ` 
+        }      
+    })
+
+    getRecomendedMovie(data)
+}
+
+// Get Recomended Movie
+const getRecomendedMovie = data => {
+    const movies = movieRecomended.querySelectorAll('.movie');
+
+    movies.forEach((movie, index) => {
+        movie.addEventListener('click', (e) => {
+            let res = data.results.map(item => {
+               return item
+            })
+            
+            const { poster_path, backdrop_path, overview, title, release_date, vote_average, id } = res[index];
+
+            movieHeader.innerHTML = `
+                <div class="movie" style="background-image: url('${img_path + backdrop_path}')">
+                    <div class="container">
+                        <div class="overlay"></div>
+                        <div class="movie-section">
+                            <div class="movie-image">
+                                <img src="${img_path + poster_path}" alt="">
+                                <h3>Release date: ${release_date}</h3>
+                            </div>
+                            <div class="movie-info">
+                                <h1>${title}</h1>
+                                <p>${overview}</p>
+                                <a href="#" target='_blank' id="${id}"><i class="fas fa-play"></i> Play Clip</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            `
+
+            // Show Video
+            getVideo(id);
+
+            // Recomended Movies
+            movieRecomended.innerHTML = '';
+            recomendedMovies(id);
+
+            // Movie Review
+            movieReview.innerHTML = '';
+            getReview(id);
+        })
+    })
 }
 
 // Get Movie Review
@@ -141,13 +214,7 @@ const getReview = async movie_id => {
             `; 
         })
     } else {
-        movieReview.innerHTML = `
-            <div class="user-review">
-                <div class="user-review-content">
-                    <h1>No reviews</h1>
-                </div>
-            </div>
-        `
+        movieReview.innerHTML = '<h1>No reviews</h1>'
     }
     closeModal();
 }
@@ -157,44 +224,48 @@ const openMovie = movies => {
     movies.results.forEach(movie => {
         const { title, poster_path, backdrop_path, overview, release_date, id } = movie;
         const modalBtn = document.querySelector(`#movie-modal-${id}`);
-        const movie_id = movie.id;
 
-        modalBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            movieModal.classList.add('show');
-            
-            setTimeout(() => {
-                document.querySelector('html').style.overflow = 'hidden'
-            }, 500)
-
-            movieHeader.innerHTML = `
-                <div class="movie" style="background-image: url('${img_path + backdrop_path}')">
-                    <div class="container">
-                        <div class="overlay"></div>
-                        <div class="movie-section">
-                            <div class="movie-image">
-                                <img src="${img_path + poster_path}" alt="">
-                                <h3>Release date: ${release_date}</h3>
-                            </div>
-                            <div class="movie-info">
-                                <h1>${title}</h1>
-                                <p>${overview}</p>
-                                <a href="#" target='_blank' id="${movie_id}"><i class="fas fa-play"></i> Play Clip</a>
+        if(poster_path != null && backdrop_path != null) {
+            modalBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                movieModal.classList.add('show');
+                
+                setTimeout(() => {
+                    document.querySelector('html').style.overflow = 'hidden'
+                }, 500)
+    
+                movieHeader.innerHTML = `
+                    <div class="movie" style="background-image: url('${img_path + backdrop_path}')">
+                        <div class="container">
+                            <div class="overlay"></div>
+                            <div class="movie-section">
+                                <div class="movie-image">
+                                    <img src="${img_path + poster_path}" alt="">
+                                    <h3>Release date: ${release_date}</h3>
+                                </div>
+                                <div class="movie-info">
+                                    <h1>${title}</h1>
+                                    <p>${overview}</p>
+                                    <a href="#" target='_blank' id="${id}"><i class="fas fa-play"></i> Play Clip</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div> 
-            `
-
-            // Show Video
-            getVideo(movie_id);
-
-            // Review Section
-            getReview(movie_id);
-
-            // Close Modal
-            closeModal();
-        })
+                    </div> 
+                `
+    
+                // Show Video
+                getVideo(id);
+    
+                // Review Section
+                getReview(id);
+    
+                // Get Recomended Movies
+                recomendedMovies(id)
+    
+                // Close Modal
+                closeModal();
+            })
+        }
     })
 }
 
@@ -247,6 +318,8 @@ searchForm.addEventListener('submit', (e) => {
             hideLoader();
             // Get Movies
             getMovies(search_url + searchText);
+
+            backBtn.classList.add('active')
             
         }, 500);
 
@@ -282,6 +355,7 @@ const closeModal = () => {
         movieModal.classList.remove('show')
         document.querySelector('html').style.overflow = 'auto'        
     
+        movieRecomended.innerHTML = '';
         movieReview.innerHTML = ''; 
     })
 }

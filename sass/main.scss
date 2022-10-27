@@ -5,6 +5,23 @@ $secondary-color: #192f47;
 $primary-font: Roboto;
 $secondary-font: Source Sans Pro, Arial, sans-serif;
 
+/* Custom scroll */
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
 * {
     margin: 0;
     padding: 0;
@@ -44,6 +61,22 @@ body {
     height: 600px;
     width: 100%;
     margin: 0 auto;
+
+    a {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        font-size: 1.6em;
+        text-decoration: none;
+        color: #fff;
+        font-family: $secondary-font;
+        opacity: 0;
+        transition: opacity .5s;
+    }
+
+    a.active {
+        opacity: 1;
+    }
 
     .overlay {
         background-color: rgba(2, 5, 41, 0.8);
@@ -127,6 +160,11 @@ body {
     justify-content: center;
     transition: opacity .5s ease-in;
     margin: 20px 0 40px 0px;
+
+    h1 {
+        padding: 20px;
+        font-family: $secondary-font;
+    }
 
     .movie {
         background-color: $primary-color;
@@ -259,9 +297,52 @@ body {
         transition: transform .5s ease-in;
     }
 
-    .movie-review {        
-        .no-review {
-            display: none;
+    .movie-recomended {
+        margin: 30px 0;
+
+        h2 {
+            color: #000;
+            font-family: $primary-font;
+            margin: 20px 0;
+        }
+
+        .recomended {
+            display: flex;
+            overflow-x: scroll;
+            height: 100%;
+            overflow-y: hidden;
+            background: #f2f2f2;
+
+            .movie {
+                margin: 30px 20px;
+                transition: 0.2s;
+                border: 1px solid #eee;
+                cursor: pointer;
+
+                &:hover {
+                    box-shadow: 0px 0px 9px 5px rgba(0,0,0,0.75);
+                    -webkit-box-shadow: 0px 0px 9px 5px rgba(0,0,0,0.75);
+                    -moz-box-shadow: 0px 0px 9px 5px rgba(0,0,0,0.75);
+                }
+
+                .card-img {
+                    width: 200px;
+                    height: 100%;
+    
+                    img {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    .movie-review {    
+        h2 {
+            color: #000;
+            font-family: $primary-font;
+            position: relative;
+            top: 30px;
         }
 
         .user-review {
@@ -271,9 +352,12 @@ body {
             display: flex;
             color: #000;
             border: 1px solid #ddd;
+
+            h1 {
+                padding: 20px;
+            }
     
             .user-review-img {
-                
                 img {
                     width: 100px;
                     height: 100px;
